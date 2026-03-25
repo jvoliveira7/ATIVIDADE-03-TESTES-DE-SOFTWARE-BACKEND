@@ -1,4 +1,4 @@
-const { criarLivro } = require('../services/livroService');
+const { criarLivro, listarLivros, deletarLivro } = require('../services/livroService');
 
 const criar = async (req, res) => {
     const { titulo, autor } = req.body;
@@ -10,4 +10,20 @@ const criar = async (req, res) => {
     res.status(201).json(livro);
 }
 
-module.exports = { criar };
+const listar = async (req, res) => {
+    const livros = await listarLivros();
+    res.status(200).json(livros);
+}
+
+const deletar = async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        return res.status(400).json({ erro: 'id é obrigatório' });
+    }
+
+    await deletarLivro(id);
+    res.status(204).send();
+}
+
+module.exports = { criar, listar, deletar };
