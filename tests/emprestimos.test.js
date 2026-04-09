@@ -3,8 +3,8 @@ require('dotenv').config();
 const api = `http://localhost:${process.env.PORT || 3000}`;
 
 // Altere para ids que existem no seu banco
-const LIVRO_ID = 1;
-const USUARIO_ID = 1;
+const LIVRO_ID = 2;
+const USUARIO_ID = 3;
 
 describe("Empréstimos", () => {
     test("deve registrar um novo empréstimo", async () => {

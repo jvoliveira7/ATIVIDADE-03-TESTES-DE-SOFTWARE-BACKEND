@@ -1,6 +1,8 @@
-# PASSO 01
+# ATIVIDADE 05 - Testes de Emprestimos
 
-- copiar o package.json e dar npm i                             //BACKEND
-- copiar o usuarios.test.js e configurar para passar os testes  //BACKEND
-- configurar o cors no app da api                               //BACKEND
-- copiar o frontend e configurar o .env para refletir a api     //FRONTEND (opcional)
+
+```
+testes RED identificados:
+- PUT /livros/:id falha pois o id 326 não existe no banco, o que acaba causando erro 500 
+- DELETE /usuarios/:id controller retorna 204, mas o teste espera 200
+```
