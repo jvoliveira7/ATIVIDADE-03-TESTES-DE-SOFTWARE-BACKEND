@@ -1,4 +1,4 @@
-const { Emprestimo } = require('../models');
+const Emprestimo = require('../models/emprestimo');
 
 const criarEmprestimo = async (usuario_id, livro_id, data_devolucao_prevista) => {
     const emprestimoAtivo = await Emprestimo.findOne({

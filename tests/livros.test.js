@@ -29,13 +29,15 @@ describe('Rotas de API - ATV03', ()=> {
   test('PUT /livros/:id atualiza um livro', async () => {
     const novoTitulo = 'Livo Novo'
     const novoAutor = 'Josue'
-    const id = 326;
+    const id = 2; 
+    
+    // O teste faz APENAS a requisição
     const res = await axios.put(`${api}/livros/${id}`, { 
       titulo: novoTitulo, 
       autor: novoAutor
     });
     
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(201); // Dica: PUT normalmente retorna 200, mas se o professor pediu 201, deixe assim!
     expect(res.data.titulo).toBe(novoTitulo);
   });
 

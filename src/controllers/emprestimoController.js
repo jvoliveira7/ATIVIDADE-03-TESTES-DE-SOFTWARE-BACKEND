@@ -33,27 +33,36 @@ const buscarPorId = async (req, res) => {
 
 const buscarPorUsuario = async (req, res) => {
     const { usuario_id } = req.params;
-    if (!usuario_id) return res.status(400).json({ erro: 'id de usuario é obrigatório' });
 
-    const emprestimo = await pegarPorIdUsuario(usuario_id);
-    if (!emprestimo) return res.status(404).json({ message: "Esse emprestimo não existe para este usuario!" });
+    const emprestimos = await pegarPorIdUsuario(usuario_id);
 
-    res.status(200).json(emprestimo);
+    res.status(200).json(emprestimos);
 }
-
 const atualizar = async (req, res) => {
     try {
         const { id } = req.params;
         const { usuario_id, livro_id, data_devolucao_prevista, data_devolucao } = req.body;
+
         if (!id) return res.status(400).json({ erro: 'id é obrigatório' });
 
-        const emprestimo = await atualizarEmprestimo(usuario_id, livro_id, data_devolucao_prevista, data_devolucao, id);
-        res.status(200).json(emprestimo);
+
+        const emprestimoExistente = await pegarPorId(id);
+        
+        if (!emprestimoExistente) {
+           
+            return res.status(404).json({ message: "Esse emprestimo não existe!" });
+        }
+
+        
+        const emprestimoAtualizado = await atualizarEmprestimo(usuario_id, livro_id, data_devolucao_prevista, data_devolucao, id);
+        
+        res.status(200).json(emprestimoAtualizado);
+
     } catch (error) {
+        
         res.status(400).json({ erro: error.message });
     }
 }
-
 const deletar = async (req, res) => {
     const { id } = req.params;
     if (!id) return res.status(400).json({ erro: 'id é obrigatório' });
@@ -61,7 +70,7 @@ const deletar = async (req, res) => {
     const apagado = await deletarEmprestimo(id);
     if (!apagado) return res.status(404).json({ message: "Esse emprestimo não existe!" });
 
-    res.status(204).send();
+    res.status(200).send();
 }
 
 module.exports = { criar, listar, deletar, buscarPorId, buscarPorUsuario, atualizar };

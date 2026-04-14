@@ -48,7 +48,7 @@ const deletar = async (req, res) => {
     const { id } = req.params;
     if (!id) return res.status(400).json({ erro: 'id é obrigatório' });
     await deletarUsuario(id);
-    res.status(204).send();
+    res.status(200).send();
 }
 
 module.exports = { criar, listar, buscarPorId, atualizar, deletar };
