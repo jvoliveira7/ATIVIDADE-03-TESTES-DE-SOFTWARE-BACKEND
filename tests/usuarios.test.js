@@ -3,12 +3,14 @@ require('dotenv').config();
 const api = `http://localhost:${process.env.PORT || 3000}`;
 
 describe("Usuários", () => {
+  // Verifica se a rota GET usuarios retorna status 200 e nomes
   test("deve retornar uma lista de usuários", async () => {
     const res = await axios.get(`${api}/usuarios`);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.data)).toBe(true);
   });
 
+  // Verifica se um usuário existente é retornado corretamente pelo id
   test("deve retornar um usuário pelo id", async () => {
     const res = await axios.get(`${api}/usuarios/1`);
     expect(res.status).toBe(200);
@@ -17,6 +19,7 @@ describe("Usuários", () => {
     expect(res.data).toHaveProperty("email");
   });
 
+  // Verifica se a API retorna 404 ao buscar um usuário que não existe
   test("deve retornar 404 para usuário inexistente", async () => {
     try {
       await axios.get(`${api}/usuarios/99999`);
@@ -25,6 +28,7 @@ describe("Usuários", () => {
     }
   });
 
+  // Verifica se um novo usuário é criado com sucesso e retorna os dados corretos
   test("deve criar um novo usuário", async () => {
     const res = await axios.post(`${api}/usuarios`, {
       nome: "João Silva",
@@ -38,6 +42,7 @@ describe("Usuários", () => {
     expect(res.data.tipo).toBe("aluno");
   });
 
+  // Verifica se a API retorna 400 quando o campo nome não é enviado
   test("deve retornar 400 ao criar usuário sem nome", async () => {
     try {
       await axios.post(`${api}/usuarios`, {
@@ -50,6 +55,7 @@ describe("Usuários", () => {
     }
   });
 
+  // Verifica se a API retorna 400 quando o campo email não é enviado
   test("deve retornar 400 ao criar usuário sem email", async () => {
     try {
       await axios.post(`${api}/usuarios`, {
@@ -62,6 +68,7 @@ describe("Usuários", () => {
     }
   });
 
+  // Verifica se a API impede cadastro de dois usuários com o mesmo email
   test("deve retornar 400 ao criar usuário com email já cadastrado", async () => {
     const email = `duplicado_${Date.now()}@email.com`;
     await axios.post(`${api}/usuarios`, { nome: "Maria Souza", email, senha: "123456", tipo: "aluno" });
@@ -73,6 +80,7 @@ describe("Usuários", () => {
     }
   });
 
+  // Cria um usuário e verifica se os dados são atualizados corretamente
   test("deve atualizar os dados de um usuário", async () => {
     const criado = await axios.post(`${api}/usuarios`, {
       nome: "Pedro Antigo",
@@ -86,6 +94,7 @@ describe("Usuários", () => {
     expect(res.data.nome).toBe("Pedro Novo");
   });
 
+  // Verifica se a API retorna 404 ao tentar atualizar um usuário inexistente
   test("deve retornar 404 ao atualizar usuário inexistente", async () => {
     try {
       await axios.put(`${api}/usuarios/99999`, { nome: "Ninguém" });
@@ -94,6 +103,7 @@ describe("Usuários", () => {
     }
   });
 
+  // cria um usuário e checa se ele é removido com sucesso
   test("deve remover um usuário", async () => {
     const criado = await axios.post(`${api}/usuarios`, {
       nome: "Para Deletar",
@@ -106,6 +116,7 @@ describe("Usuários", () => {
     expect(res.status).toBe(200);
   });
 
+  // a API tenta checar e retorna 404 ao tentar deletar um usuário inexistente
   test("deve retornar 404 ao deletar usuário inexistente", async () => {
     try {
       await axios.delete(`${api}/usuarios/99999`);

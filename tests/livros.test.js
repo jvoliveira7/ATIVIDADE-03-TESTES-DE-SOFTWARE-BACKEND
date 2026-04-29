@@ -37,7 +37,7 @@ describe('Rotas de API - ATV03', ()=> {
       autor: novoAutor
     });
     
-    expect(res.status).toBe(201); // Dica: PUT normalmente retorna 200, mas se o professor pediu 201, deixe assim!
+    expect(res.status).toBe(201); 
     expect(res.data.titulo).toBe(novoTitulo);
   });
 
